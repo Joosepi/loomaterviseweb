@@ -3,21 +3,22 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#B6B09F',
+      main: '#15616d',
     },
     secondary: {
-      main: '#EAE4D5',
+      main: '#6ca965',
     },
     background: {
-      default: '#F2F2F2',
-      paper: '#FFFFFF',
+      default: '#f9f9f9',
+      paper: '#fff',
     },
     text: {
-      primary: '#000000',
+      primary: '#222',
+      secondary: '#555',
     },
   },
   typography: {
-    fontFamily: 'Josefin Slab, serif',
+    fontFamily: 'Inter, Roboto, Arial, sans-serif',
     h1: { fontWeight: 700 },
     h2: { fontWeight: 700 },
     h3: { fontWeight: 700 },

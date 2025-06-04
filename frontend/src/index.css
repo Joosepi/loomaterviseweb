@@ -66,3 +66,27 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #232b32;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 8px;
+  border: 2px solid #232b32;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #15616d;
+}
+::-webkit-scrollbar-corner {
+  background: #232b32;
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #4a5568 #232b32;
+}
