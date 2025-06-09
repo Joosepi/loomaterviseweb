@@ -9,6 +9,7 @@ const db = mysql.createPool({
 });
 
 export default async function handler(req, res) {
+  console.log('Register API hit!');
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
@@ -20,6 +21,7 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log('Attempting to hash password and insert user...');
     const hash = bcrypt.hashSync(password, 10);
     const [result] = await db.execute(
       'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
@@ -32,10 +34,10 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ success: true, userId: result.insertId });
   } catch (error) {
+    console.error('Registration error details:', error);
     if (error.code === 'ER_DUP_ENTRY') {
       return res.status(400).json({ error: 'Email already in use' });
     }
-    console.error('Registration error:', error);
-    return res.status(500).json({ error: 'Registration failed' });
+    return res.status(500).json({ error: 'An unexpected server error occurred during registration.' });
   }
 } 
