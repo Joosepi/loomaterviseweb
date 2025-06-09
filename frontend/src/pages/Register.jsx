@@ -24,28 +24,27 @@ const Register = () => {
     
     setLoading(true);
     try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          password: form.password,
-        }),
-      });
+      // Simulate successful registration by storing in localStorage
+      localStorage.setItem('demo_registered_user', JSON.stringify({
+        name: form.name,
+        email: form.email,
+        password: form.password, // In a real app, never store plain passwords
+        role: 'user', // Default role for demo
+      }));
 
-      const data = await response.json();
+      // Simulate immediate login after registration
+      localStorage.setItem('token', 'fake-jwt-token-for-demo'); // Dummy token
+      localStorage.setItem('user', JSON.stringify({
+        id: Date.now(), // Dummy ID
+        name: form.name,
+        email: form.email,
+        role: 'user',
+      }));
       
-      if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
-      }
-
-      showNotification('Registration successful! Please login.', 'success');
-      navigate('/login');
+      showNotification('Registration successful! You are now logged in.', 'success');
+      navigate('/'); // Redirect to home or dashboard
     } catch (error) {
-      showNotification(error.message, 'error');
+      showNotification(error.message || 'Registration failed', 'error');
     } finally {
       setLoading(false);
     }

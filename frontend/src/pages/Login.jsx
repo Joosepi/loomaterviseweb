@@ -19,26 +19,22 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      });
+      const storedUser = JSON.parse(localStorage.getItem('demo_registered_user'));
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
+      if (storedUser && storedUser.email === form.email && storedUser.password === form.password) {
+        // Simulate successful login
+        localStorage.setItem('token', 'fake-jwt-token-for-demo'); // Dummy token
+        localStorage.setItem('user', JSON.stringify({
+          id: Date.now(), // Dummy ID
+          name: storedUser.name,
+          email: storedUser.email,
+          role: storedUser.role,
+        }));
+        showNotification('Login successful!', 'success');
+        navigate('/');
+      } else {
+        throw new Error('Invalid credentials or no account registered.');
       }
-
-      // Store the token and user data
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      
-      showNotification('Login successful!', 'success');
-      navigate('/');
     } catch (error) {
       showNotification(error.message, 'error');
     } finally {
