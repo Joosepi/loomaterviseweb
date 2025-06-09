@@ -37,7 +37,7 @@ const Dashboard = ({ pets, activities, healthRecords }) => {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       {/* Hero Section */}
-      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'center', py: 6, gap: 6, background: 'linear-gradient(90deg, #e0f2f7 60%, #c8e6c9 100%)', minHeight: '400px', width: '100%' }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'center', py: 6, gap: 6, background: 'linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #a5d6a7 100%)', minHeight: '400px', width: '100%' }}>
         <Box sx={{ flex: 1, minWidth: 300, textAlign: { xs: 'center', md: 'left' } }}>
           <Typography variant="h2" sx={{ fontWeight: 800, color: 'primary.main', mb: 2, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
             Your Pet's Health, Simplified
@@ -107,7 +107,7 @@ const Dashboard = ({ pets, activities, healthRecords }) => {
               height: 6,
               width: '100%',
               borderRadius: '5px 5px 0 0',
-              background: 'linear-gradient(90deg, #15616d 0%, #6ca965 100%)',
+              background: "radial-gradient(circle at 70% 40%, #e0f7fa 0%, #b2ebf2 60%, #a5d6a7 100%)",
               mb: 2
             }} />
             <Avatar sx={{ bgcolor: stat.color, width: 64, height: 64, mx: 'auto', mb: 2, boxShadow: 2 }}>

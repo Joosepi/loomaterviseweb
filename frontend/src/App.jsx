@@ -10,6 +10,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAlert from '@mui/material/Alert';
+import SvgIcon from '@mui/material/SvgIcon';
 
 import Dashboard from './pages/Dashboard';
 import Pets from './pages/Pets';
@@ -161,6 +162,19 @@ const appTheme = createTheme({
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+
+// Paw print SVG as a component
+function PawPrintIcon(props) {
+  return (
+    <SvgIcon {...props} viewBox="0 0 32 32">
+      <circle cx="8" cy="12" r="3" fill="#15616d" fillOpacity="0.85" />
+      <circle cx="24" cy="12" r="3" fill="#15616d" fillOpacity="0.85" />
+      <ellipse cx="16" cy="24" rx="7" ry="5" fill="#15616d" fillOpacity="0.65" />
+      <circle cx="12" cy="7" r="2" fill="#15616d" fillOpacity="0.85" />
+      <circle cx="20" cy="7" r="2" fill="#15616d" fillOpacity="0.85" />
+    </SvgIcon>
+  );
+}
 
 function App() {
   const location = useLocation();
@@ -379,22 +393,25 @@ function App() {
         <Box sx={{ minHeight: '100vh', position: 'relative', zIndex: 10 }}>
           <AppBar component="nav" position="sticky" elevation={0} sx={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(6px)' }}>
             <Toolbar sx={{ justifyContent: 'space-between' }}>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' }, color: 'primary.main' }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, color: 'primary.main', fontWeight: 700 }}
-              >
-                Lemmiklooma Tervise App
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                  sx={{ mr: 1.5, display: { sm: 'none' }, color: 'primary.main' }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <PawPrintIcon sx={{ fontSize: 32, color: 'primary.main', mr: 1, display: { xs: 'none', sm: 'inline' } }} />
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ display: { xs: 'none', sm: 'block' }, color: 'primary.main', fontWeight: 700 }}
+                >
+                  Loomatervise App
+                </Typography>
+              </Box>
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <Button component={Link} to="/" sx={{ color: 'primary.main', fontWeight: 600, '&:hover': { bgcolor: 'primary.light', color: 'white' } }}>Dashboard</Button>
                 <Button component={Link} to="/pets" sx={{ color: 'primary.main', fontWeight: 600, '&:hover': { bgcolor: 'primary.light', color: 'white' } }}>Pets</Button>
