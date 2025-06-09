@@ -24,7 +24,7 @@ const Register = () => {
     
     setLoading(true);
     try {
-      const response = await fetch('https://loomaterviseweb-backend.onrender.com/api/register', {
+      const response = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

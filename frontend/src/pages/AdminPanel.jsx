@@ -21,7 +21,7 @@ const AdminPanel = () => {
   const fetchUsers = () => {
     setLoading(true);
     const token = localStorage.getItem('token');
-    fetch('http://localhost:3000/api/admin/users', {
+    fetch('/api/admin/users', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -38,7 +38,6 @@ const AdminPanel = () => {
           users: data.filter(u => u.role === 'user').length,
         });
         setRecent([...data].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5));
-        // Registration trends by date (YYYY-MM-DD)
         const trends = {};
         data.forEach(u => {
           const d = u.created_at ? u.created_at.slice(0, 10) : 'Unknown';
@@ -61,7 +60,7 @@ const AdminPanel = () => {
     if (email === ADMIN_EMAIL) return;
     if (!window.confirm('Are you sure you want to delete this user?')) return;
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:3000/api/admin/users/${id}`, {
+    fetch(`/api/admin/users/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -73,7 +72,7 @@ const AdminPanel = () => {
     if (email === ADMIN_EMAIL) return;
     const newRole = currentRole === 'admin' ? 'user' : 'admin';
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:3000/api/admin/users/${id}/role`, {
+    fetch(`/api/admin/users/${id}/role`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
