@@ -107,10 +107,26 @@ const Pets = ({ pets, addPet, deletePet, editPet }) => {
           </Button>
         </Box>
       ) : (
-        <Grid container spacing={4} sx={{ mt: 1, maxWidth: 1100, mx: 'auto' }}>
+        <Grid container spacing={4} sx={{ mt: 1 }}>
           {pets.map((pet) => (
-            <Grid xs={12} sm={6} md={4} key={pet.id}>
-              <Card sx={{ borderRadius: 5, boxShadow: 4, height: '100%', transition: 'transform 0.18s, box-shadow 0.18s', '&:hover': { transform: 'translateY(-6px) scale(1.03)', boxShadow: 8 } }}>
+            <Grid item xs={12} sm={6} md={4} key={pet.id}>
+              <Card sx={{
+                borderRadius: 5,
+                boxShadow: '0 8px 32px 0 rgba(21,97,109,0.10)',
+                height: '100%',
+                transition: 'transform 0.18s, box-shadow 0.18s',
+                background: 'rgba(255,255,255,0.85)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255,255,255,0.25)',
+                '&:hover': { transform: 'translateY(-6px) scale(1.03)', boxShadow: 8 }
+              }}>
+                <Box sx={{
+                  height: 6,
+                  width: '100%',
+                  borderRadius: '5px 5px 0 0',
+                  background: 'linear-gradient(90deg, #15616d 0%, #6ca965 100%)',
+                  mb: 2
+                }} />
                 <Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
                   <Avatar sx={{ bgcolor: 'primary.main', width: 64, height: 64, boxShadow: 2 }}>
                     <PetsIcon sx={{ fontSize: 36, color: '#fff' }} />

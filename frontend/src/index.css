@@ -24,10 +24,9 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: transparent !important;
 }
 
 h1 {
@@ -89,4 +88,24 @@ button:focus-visible {
 html {
   scrollbar-width: thin;
   scrollbar-color: #4a5568 #232b32;
+}
+
+/* New: Enhanced button hover effects */
+.MuiButton-containedPrimary {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important; /* Ensure transition */
+}
+
+.MuiButton-containedPrimary:hover {
+  transform: translateY(-2px); /* Slight lift */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important; /* Enhanced shadow on hover */
+}
+
+/* New: Subtle shadow for Cards */
+.MuiCard-root {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; /* Subtle initial shadow */
+  transition: box-shadow 0.3s ease-in-out !important;
+}
+
+.MuiCard-root:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important; /* Slightly more pronounced on hover */
 }

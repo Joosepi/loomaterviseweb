@@ -57,9 +57,9 @@ const Activities = ({ pets, activities, addActivity, deleteActivity, editActivit
           </Button>
         </Box>
       ) : (
-        <Grid container spacing={4} sx={{ mt: 1, maxWidth: 1100, mx: 'auto' }}>
+        <Grid container spacing={4} sx={{ mt: 1 }}>
           {activities.map((activity, idx) => (
-            <Grid xs={12} sm={6} md={4} key={idx}>
+            <Grid item xs={12} sm={6} md={4} key={idx}>
               <Card sx={{ borderRadius: 5, boxShadow: 4, height: '100%', transition: 'transform 0.18s, box-shadow 0.18s', '&:hover': { transform: 'translateY(-6px) scale(1.03)', boxShadow: 8 } }}>
                 <Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
                   <Avatar sx={{ bgcolor: 'secondary.main', width: 64, height: 64, boxShadow: 2 }}>
