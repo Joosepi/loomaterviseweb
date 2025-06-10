@@ -7,6 +7,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 import { createTheme, ThemeProvider, alpha } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAlert from '@mui/material/Alert';
@@ -19,6 +20,7 @@ import HealthRecords from './pages/HealthRecords';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminPanel from './pages/AdminPanel';
+import MealTracker from './pages/MealTracker';
 import { NotificationProvider } from './context/NotificationContext';
 
 const drawerWidth = 220;
@@ -28,6 +30,7 @@ const navItems = [
   { text: 'Pets', icon: <PetsIcon />, path: '/pets' },
   { text: 'Activities', icon: <FitnessCenterIcon />, path: '/activities' },
   { text: 'Health Records', icon: <LocalHospitalIcon />, path: '/healthrecords' },
+  { text: 'Meal Tracker', icon: <RestaurantIcon />, path: '/meals' },
 ];
 
 const initialPets = [
@@ -346,6 +349,12 @@ function App() {
             <ListItemText primary="Health Records" />
           </ListItemButton>
         </ListItem>
+        <ListItem disablePadding component={Link} to="/meals">
+          <ListItemButton sx={{ textAlign: 'left' }}>
+            <RestaurantIcon sx={{ mr: 1, color: 'primary.main' }} />
+            <ListItemText primary="Meal Tracker" />
+          </ListItemButton>
+        </ListItem>
         {user && user.email === adminEmail && (
           <ListItem disablePadding component={Link} to="/admin">
             <ListItemButton sx={{ textAlign: 'left' }}>
@@ -417,6 +426,7 @@ function App() {
                 <Button component={Link} to="/pets" sx={{ color: 'primary.main', fontWeight: 600, '&:hover': { bgcolor: 'primary.light', color: 'white' } }}>Pets</Button>
                 <Button component={Link} to="/activities" sx={{ color: 'primary.main', fontWeight: 600, '&:hover': { bgcolor: 'primary.light', color: 'white' } }}>Activities</Button>
                 <Button component={Link} to="/healthrecords" sx={{ color: 'primary.main', fontWeight: 600, '&:hover': { bgcolor: 'primary.light', color: 'white' } }}>Health Records</Button>
+                <Button component={Link} to="/meals" sx={{ color: 'primary.main', fontWeight: 600, '&:hover': { bgcolor: 'primary.light', color: 'white' } }}>Meal Tracker</Button>
                 {user && user.email === adminEmail && (
                   <Button component={Link} to="/admin" sx={{ color: 'secondary.main', fontWeight: 600, '&:hover': { bgcolor: 'secondary.light', color: 'white' } }}>Admin Panel</Button>
                 )}
@@ -495,6 +505,7 @@ function App() {
                 <Route path="/pets" element={<Pets pets={pets} addPet={addPet} deletePet={deletePet} editPet={editPet} />} />
                 <Route path="/activities" element={<Activities pets={pets} activities={activities} addActivity={addActivity} deleteActivity={deleteActivity} editActivity={editActivity} />} />
                 <Route path="/healthrecords" element={<HealthRecords pets={pets} healthRecords={healthRecords} addHealthRecord={addHealthRecord} deleteHealthRecord={deleteHealthRecord} editHealthRecord={editHealthRecord} />} />
+                <Route path="/meals" element={<MealTracker pets={pets} />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 {user && user.email === adminEmail && (

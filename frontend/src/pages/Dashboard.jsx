@@ -1,19 +1,42 @@
 import React from 'react';
-import { Typography, Paper, Box, Grid, Card, CardContent, Avatar, Button, List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import { Typography, Paper, Box, Grid, Card, CardContent, Avatar, Button, List, ListItem, ListItemAvatar, ListItemText, Divider, Chip } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import StarIcon from '@mui/icons-material/Star';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useNavigate } from 'react-router-dom';
 
 const heroDog = 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=1000&q=80';
 
 const Dashboard = ({ pets, activities, healthRecords }) => {
+  const navigate = useNavigate();
+
+  // Calculate additional stats
+  const upcomingEvents = healthRecords.filter(r => {
+    const date = new Date(r.date);
+    return date > new Date();
+  }).length;
+  const missedActivities = activities.filter(a => {
+    const date = new Date(a.date);
+    return date < new Date() && !a.completed;
+  }).length;
+  const avgActivity = pets.length > 0 ? (activities.length / pets.length).toFixed(1) : 0;
+
   const stats = [
-    { label: 'Pets', value: pets.length, icon: <PetsIcon sx={{ fontSize: 36 }} />, color: '#15616d' },
-    { label: 'Activities', value: activities.length, icon: <FitnessCenterIcon sx={{ fontSize: 36 }} />, color: '#6ca965' },
-    { label: 'Health Records', value: healthRecords.length, icon: <LocalHospitalIcon sx={{ fontSize: 36 }} />, color: '#ffb74d' },
+    { label: 'Pets', value: pets.length, icon: <PetsIcon sx={{ fontSize: 36 }} />, color: '#15616d', bg: 'linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%)', to: '/pets' },
+    { label: 'Activities', value: activities.length, icon: <FitnessCenterIcon sx={{ fontSize: 36 }} />, color: '#6ca965', bg: 'linear-gradient(135deg, #e0f7fa 0%, #a5d6a7 100%)', to: '/activities' },
+    { label: 'Health Records', value: healthRecords.length, icon: <LocalHospitalIcon sx={{ fontSize: 36 }} />, color: '#ffb74d', bg: 'linear-gradient(135deg, #fffde4 0%, #ffb74d 100%)', to: '/healthrecords' },
+    { label: 'Upcoming Events', value: upcomingEvents, icon: <EventAvailableIcon sx={{ fontSize: 36 }} />, color: '#1976d2', bg: 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)', to: '/healthrecords' },
+    { label: 'Missed Activities', value: missedActivities, icon: <ErrorOutlineIcon sx={{ fontSize: 36 }} />, color: '#d32f2f', bg: 'linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%)', to: '/activities' },
+    { label: 'Avg Activity / Pet', value: avgActivity, icon: <BarChartIcon sx={{ fontSize: 36 }} />, color: '#512da8', bg: 'linear-gradient(135deg, #ede7f6 0%, #b39ddb 100%)', to: '/activities' },
   ];
 
   // Combine and sort recent activities and health records by date (descending)
@@ -33,6 +56,17 @@ const Dashboard = ({ pets, activities, healthRecords }) => {
   ].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
   const recent5 = recent.slice(0, 5);
+
+  // Generate sample data for the activity trend chart
+  const activityTrendData = [
+    { name: 'Mon', activities: 4, health: 2 },
+    { name: 'Tue', activities: 3, health: 1 },
+    { name: 'Wed', activities: 5, health: 3 },
+    { name: 'Thu', activities: 2, health: 2 },
+    { name: 'Fri', activities: 6, health: 1 },
+    { name: 'Sat', activities: 4, health: 2 },
+    { name: 'Sun', activities: 3, health: 1 },
+  ];
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -57,11 +91,11 @@ const Dashboard = ({ pets, activities, healthRecords }) => {
             sx={{
               width: '100%',
               maxWidth: 420,
-              borderRadius: '50%', /* Make it circular */
+              borderRadius: '50%',
               objectFit: 'cover',
-              aspectRatio: '1 / 1', /* Maintain aspect ratio for circular shape */
-              boxShadow: '0 12px 24px rgba(21,97,109,0.20)', /* Enhanced shadow */
-              border: '8px solid white', /* White border for emphasis */
+              aspectRatio: '1 / 1',
+              boxShadow: '0 12px 24px rgba(21,97,109,0.20)',
+              border: '8px solid white',
             }}
           />
         </Box>
@@ -73,9 +107,10 @@ const Dashboard = ({ pets, activities, healthRecords }) => {
           display: 'grid',
           gap: 4,
           gridTemplateColumns: {
-            xs: '1fr', /* Full width on extra small screens */
-            sm: 'repeat(2, 1fr)', /* Two columns on small screens */
-            md: 'repeat(3, 1fr)', /* Three columns on medium screens */
+            xs: '1fr',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(3, 1fr)',
+            lg: 'repeat(4, 1fr)',
           },
           justifyContent: 'center',
           mt: { xs: 2, md: 6 },
@@ -86,38 +121,75 @@ const Dashboard = ({ pets, activities, healthRecords }) => {
         {stats.map((stat) => (
           <Card
             key={stat.label}
+            onClick={() => navigate(stat.to)}
             sx={{
-              borderRadius: 5,
-              boxShadow: '0 8px 32px 0 rgba(21,97,109,0.10)',
+              borderRadius: 6,
+              boxShadow: '0 4px 24px 0 rgba(21,97,109,0.10)',
               textAlign: 'center',
-              py: 4,
+              py: 5,
               px: 2,
               minWidth: 200,
-              transition: 'transform 0.18s, box-shadow 0.18s',
-              background: 'rgba(255,255,255,0.85)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255,255,255,0.25)',
+              minHeight: 260,
+              cursor: 'pointer',
+              transition: 'transform 0.18s, box-shadow 0.18s, background 0.18s',
+              background: stat.bg,
+              color: stat.color,
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
               '&:hover': {
-                transform: 'translateY(-6px) scale(1.04)',
-                boxShadow: 8,
+                transform: 'translateY(-8px) scale(1.04)',
+                boxShadow: '0 8px 32px 0 rgba(21,97,109,0.18)',
+                filter: 'brightness(1.08)',
               },
             }}
           >
-            <Box sx={{
-              height: 6,
-              width: '100%',
-              borderRadius: '5px 5px 0 0',
-              background: "radial-gradient(circle at 70% 40%, #e0f7fa 0%, #b2ebf2 60%, #a5d6a7 100%)",
-              mb: 2
-            }} />
-            <Avatar sx={{ bgcolor: stat.color, width: 64, height: 64, mx: 'auto', mb: 2, boxShadow: 2 }}>
+            {/* Floating Icon */}
+            <Avatar sx={{
+              bgcolor: '#fff',
+              color: stat.color,
+              width: 72,
+              height: 72,
+              boxShadow: '0 4px 16px 0 rgba(21,97,109,0.10)',
+              position: 'absolute',
+              top: 16,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              border: `4px solid ${stat.bg.split(' ')[1] || '#fff'}`,
+              zIndex: 2
+            }}>
               {stat.icon}
             </Avatar>
-            <Typography variant="h3" sx={{ fontWeight: 700 }}>{stat.value}</Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 600 }}>{stat.label}</Typography>
+            <Box sx={{ mt: 10 }} />
+            <Typography variant="h2" sx={{ fontWeight: 800, color: stat.color, mb: 1, mt: 2, fontSize: { xs: '2.2rem', md: '2.8rem' } }}>{stat.value}</Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 600, fontSize: { xs: '1.1rem', md: '1.25rem' } }}>{stat.label}</Typography>
           </Card>
         ))}
       </Box>
+
+      {/* Activity Trends Chart */}
+      <Card sx={{ mb: 4, p: 3, borderRadius: 4, boxShadow: '0 8px 32px 0 rgba(21,97,109,0.10)' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <TrendingUpIcon sx={{ color: 'primary.main', mr: 1 }} />
+          <Typography variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>
+            Weekly Activity Trends
+          </Typography>
+        </Box>
+        <Box sx={{ height: 300 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={activityTrendData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis dataKey="name" stroke="#666" />
+              <YAxis stroke="#666" />
+              <Tooltip />
+              <Line type="monotone" dataKey="activities" stroke="#15616d" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="health" stroke="#6ca965" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </Box>
+      </Card>
 
       {/* Why Choose Us Section */}
       <Box sx={{ mt: 8, mb: 6, width: '100%' }}>
@@ -155,22 +227,56 @@ const Dashboard = ({ pets, activities, healthRecords }) => {
 
       {/* Recent Activity Section */}
       <Paper elevation={1} sx={{ borderRadius: 4, background: '#ffffff', mb: 8, boxShadow: '0 4px 12px rgba(0,0,0,0.08)', width: '100%' }}>
-        <Typography variant="h5" sx={{ fontWeight: 700, mb: 2, color: 'text.primary', px: 3, pt: 3 }}>Recent Activity</Typography>
+        <Box sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <AccessTimeIcon sx={{ color: 'primary.main', mr: 1 }} />
+            <Typography variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>Recent Activity</Typography>
+          </Box>
+          <Chip label="Last 5 Activities" color="primary" variant="outlined" />
+        </Box>
+        <Divider />
         <List sx={{ px: 3, pb: 3 }}>
-          {recent5.length === 0 && (
-            <ListItem><ListItemText primary="No recent activity yet." sx={{ color: 'text.secondary' }} /></ListItem>
-          )}
-          {recent5.map((item, idx) => (
-            <ListItem key={idx} sx={{ '&:not(:last-child)': { mb: 1 } }}>
-              <ListItemAvatar>
-                <Avatar sx={{ bgcolor: '#e0f7fa', color: '#15616d', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>{item.icon}</Avatar>
-              </ListItemAvatar>
+          {recent5.length === 0 ? (
+            <ListItem>
               <ListItemText 
-                primary={<Typography variant="body1" sx={{ fontWeight: 500 }}>{item.text}</Typography>}
-                secondary={<Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem' }}>{item.date}</Typography>}
+                primary="No recent activity yet." 
+                sx={{ color: 'text.secondary', textAlign: 'center' }} 
               />
             </ListItem>
-          ))}
+          ) : (
+            recent5.map((item, idx) => (
+              <ListItem 
+                key={idx} 
+                sx={{ 
+                  '&:not(:last-child)': { mb: 1 },
+                  transition: 'transform 0.2s',
+                  '&:hover': {
+                    transform: 'translateX(8px)',
+                    bgcolor: 'rgba(21,97,109,0.04)',
+                    borderRadius: 2
+                  }
+                }}
+              >
+                <ListItemAvatar>
+                  <Avatar sx={{ bgcolor: '#e0f7fa', color: '#15616d', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                    {item.icon}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText 
+                  primary={
+                    <Typography variant="body1" sx={{ fontWeight: 500 }}>
+                      {item.text}
+                    </Typography>
+                  }
+                  secondary={
+                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem' }}>
+                      {item.date}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            ))
+          )}
         </List>
       </Paper>
     </Box>

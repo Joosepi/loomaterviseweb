@@ -144,14 +144,14 @@ const Pets = ({ pets, addPet, deletePet, editPet }) => {
                 transition: 'transform 0.18s, box-shadow 0.18s',
                 background: 'rgba(255,255,255,0.85)',
                 backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255,255,255,0.25)',
+                border: '1px solid rgba(220,220,220,0.6)',
                 '&:hover': { transform: 'translateY(-6px) scale(1.03)', boxShadow: 8 }
               }}>
                 <Box sx={{
-                  height: 6,
+                  height: 0,
                   width: '100%',
                   borderRadius: '5px 5px 0 0',
-                  background: 'linear-gradient(90deg, #15616d 0%, #6ca965 100%)',
+                  borderTop: '4px solid #b2ebf2',
                   mb: 2
                 }} />
                 <Box sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
