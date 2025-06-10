@@ -71,7 +71,7 @@ const Dashboard = ({ pets, activities, healthRecords }) => {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       {/* Hero Section */}
-      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'center', py: 6, gap: 6, background: 'linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #a5d6a7 100%)', minHeight: '400px', width: '100%' }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'center', py: 6, gap: 6, minHeight: '400px', width: '100%' }}>
         <Box sx={{ flex: 1, minWidth: 300, textAlign: { xs: 'center', md: 'left' } }}>
           <Typography variant="h2" sx={{ fontWeight: 800, color: 'primary.main', mb: 2, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
             Your Pet's Health, Simplified
